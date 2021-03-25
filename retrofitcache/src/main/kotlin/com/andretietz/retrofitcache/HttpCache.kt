@@ -10,6 +10,13 @@ import java.util.concurrent.TimeUnit
 @Retention(AnnotationRetention.RUNTIME)
 annotation class HttpCache(
   val value: Int,
-  val unit: TimeUnit,
+  /**
+   * [TimeUnit] for the cache to stay
+   */
+  val unit: TimeUnit = TimeUnit.SECONDS,
+  /**
+   * Override server-side response headers?
+   * default: `false`
+   */
   val override: Boolean = false
 )

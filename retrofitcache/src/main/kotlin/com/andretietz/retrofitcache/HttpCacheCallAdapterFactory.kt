@@ -4,7 +4,7 @@ import retrofit2.CallAdapter
 import retrofit2.Retrofit
 import java.lang.reflect.Type
 
-class CachingCallAdapterFactory(
+internal class HttpCacheCallAdapterFactory(
   private val registration: MutableMap<Int, HttpCache> = mutableMapOf()
 ) : CallAdapter.Factory() {
 
@@ -24,7 +24,7 @@ class CachingCallAdapterFactory(
     val annotation = isAnnotated(annotations)
     // getting all calladapters except this one
     val callAdapterFactories =
-      retrofit.callAdapterFactories().filterNot { it is CachingCallAdapterFactory }
+      retrofit.callAdapterFactories().filterNot { it is HttpCacheCallAdapterFactory }
     // iterating through them in order to find the one which would be used normally
     for (i in callAdapterFactories.indices) {
       // try getting the calladapter which would be used normally
@@ -45,4 +45,3 @@ class CachingCallAdapterFactory(
     return null
   }
 }
-

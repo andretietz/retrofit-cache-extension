@@ -1,15 +1,23 @@
 plugins {
-    id 'java-library'
-    id 'kotlin'
+  id 'java-library'
+  id 'kotlin'
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+  sourceCompatibility = JavaVersion.VERSION_1_8
+  targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
-    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
-    implementation "com.squareup.okhttp3:okhttp:$okhttpVersion"
+  implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+  implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+  implementation "com.squareup.okhttp3:okhttp:$okhttpVersion"
+  implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
+
+  testImplementation "junit:junit:$junitVersion"
+  testImplementation "org.assertj:assertj-core:$assertjVersion"
+  testImplementation "com.squareup.okhttp3:mockwebserver:$okhttpVersion"
+  testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
+  testImplementation "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
+
 }
