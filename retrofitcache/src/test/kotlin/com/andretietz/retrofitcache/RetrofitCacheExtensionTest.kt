@@ -49,11 +49,11 @@ class RetrofitCacheExtensionTest {
     server.shutdown()
   }
 
-  @Test
-  fun `check if CallAdapter is in place`() {
-    assertThat(retrofit.callAdapterFactories()[0])
-      .isInstanceOf(HttpCacheCallAdapterFactory::class.java)
-  }
+//  @Test
+//  fun `check if CallAdapter is in place`() {
+//    assertThat(retrofit.callAdapterFactories()[0])
+//      .isInstanceOf(HttpCacheCallAdapterFactory::class.java)
+//  }
 
   @Test
   fun `check if Interceptor is in place`() {

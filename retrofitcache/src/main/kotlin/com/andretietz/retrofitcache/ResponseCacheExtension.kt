@@ -20,28 +20,19 @@ object ResponseCacheExtension {
   ): Retrofit {
     if (!cache.directory.isDirectory)
       throw IllegalArgumentException("The Cache must have a directory set!")
-    val annotationRegister = mutableMapOf<Int, ResponseCache>()
     val okHttpClient = retrofit.callFactory().let { callFactory ->
       if (callFactory !is OkHttpClient) {
         throw IllegalStateException("RetrofitCache only works with OkHttp as Http Client!")
       } else {
         callFactory.newBuilder()
-          .addNetworkInterceptor(HttpCachingInterceptor(annotationRegister, cacheControl))
+          .addNetworkInterceptor(HttpCachingInterceptor(cacheControl))
           .cache(cache)
           .build()
       }
     }
-    val builder = Retrofit.Builder()
+    return retrofit.newBuilder()
       .client(okHttpClient)
-      .baseUrl(retrofit.baseUrl())
-    builder.callAdapterFactories()
-    retrofit.converterFactories().forEach { builder.addConverterFactory(it) }
-    retrofit.callbackExecutor()?.let { builder.callbackExecutor(it) }
-    builder.addCallAdapterFactory(HttpCacheCallAdapterFactory(annotationRegister))
-    retrofit.callAdapterFactories()
-      // figure out how to remove default adapters!
-      .forEach { builder.addCallAdapterFactory(it) }
-    return builder.build()
+      .build()
   }
 }
 
