@@ -5,12 +5,14 @@ import okhttp3.Interceptor
 import okhttp3.Response
 
 internal class HttpCachingInterceptor(
-  private val registration: Map<Int, HttpCache>,
-  private val cacheControl: (annotation: HttpCache) -> CacheControl
+  private val registration: Map<Int, ResponseCache>,
+  private val cacheControl: (annotation: ResponseCache) -> CacheControl
 ) : Interceptor {
   override fun intercept(chain: Interceptor.Chain): Response {
     val request = chain.request()
+
     val response: Response = chain.proceed(request)
+
     val cacheInfo = registration[RequestIdentifier.identify(request)]
     if (cacheInfo != null) {
       val cacheControl: CacheControl = cacheControl(cacheInfo)

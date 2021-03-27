@@ -41,7 +41,7 @@ class RetrofitCacheExtensionTest {
       .baseUrl(server.url("/"))
       .addConverterFactory(MoshiConverterFactory.create())
       .build()
-      .cacheExtension(cache)
+      .responseCache(cache)
   }
 
   @After
@@ -167,7 +167,9 @@ class RetrofitCacheExtensionTest {
       val response = api.getCachedInt()
       assertThat(response.body()).isEqualTo(1234)
       assertThat(response.headers().map { pair -> pair.first }).contains("Cache-Control")
-      assertThat(response.headers().first { it.first == "Cache-Control" }.second).isEqualTo("max-age=987")
+      assertThat(
+        response.headers().first { it.first == "Cache-Control" }.second
+      ).isEqualTo("max-age=987")
     }
   }
 
@@ -180,25 +182,27 @@ class RetrofitCacheExtensionTest {
       val response = api.getForceCachedInt()
       assertThat(response.body()).isEqualTo(1234)
       assertThat(response.headers().map { pair -> pair.first }).contains("Cache-Control")
-      assertThat(response.headers().first { it.first == "Cache-Control" }.second).isEqualTo("max-age=60")
+      assertThat(
+        response.headers().first { it.first == "Cache-Control" }.second
+      ).isEqualTo("max-age=60")
     }
   }
 
   interface TestApi {
 
     @GET("cached")
-    @HttpCache(60)
+    @ResponseCache(60)
     suspend fun getCachedInt(): Response<Int>
 
     @GET("force-cached")
-    @HttpCache(60, override = true)
+    @ResponseCache(60, override = true)
     suspend fun getForceCachedInt(): Response<Int>
 
     @GET("non-cached")
     suspend fun getInt(): Response<Int>
 
     @GET("short-cached")
-    @HttpCache(1)
+    @ResponseCache(1)
     suspend fun getShortCachedInt(): Response<Int>
 
     companion object {

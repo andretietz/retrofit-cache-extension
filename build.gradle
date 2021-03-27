@@ -1,23 +1,24 @@
 buildscript {
-    repositories {
-        google()
-        mavenCentral()
-        jcenter()
-    }
-    dependencies {
-        classpath "com.android.tools.build:gradle:4.1.3"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-    }
+  repositories {
+    google()
+    mavenCentral()
+    jcenter()
+  }
+  dependencies {
+    classpath "com.android.tools.build:gradle:4.1.3"
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+    classpath "com.google.dagger:hilt-android-gradle-plugin:$hiltVersion"
+  }
 }
 
 allprojects {
-    repositories {
-        google()
-        mavenCentral()
-        jcenter()
-    }
+  repositories {
+    google()
+    mavenCentral()
+    jcenter()
+  }
 }
 
 task clean(type: Delete) {
-    delete rootProject.buildDir
+  delete rootProject.buildDir
 }

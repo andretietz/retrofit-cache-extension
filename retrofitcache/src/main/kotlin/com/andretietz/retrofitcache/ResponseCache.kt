@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit
   AnnotationTarget.PROPERTY_SETTER
 )
 @Retention(AnnotationRetention.RUNTIME)
-annotation class HttpCache(
+annotation class ResponseCache(
   val value: Int,
   /**
    * [TimeUnit] for the cache to stay

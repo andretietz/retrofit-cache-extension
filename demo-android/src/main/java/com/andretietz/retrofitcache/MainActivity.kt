@@ -1,38 +1,57 @@
 package com.andretietz.retrofitcache
 
 import android.os.Bundle
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import android.view.Menu
-import android.view.MenuItem
+import androidx.lifecycle.lifecycleScope
+import com.andretietz.retrofitcache.MainViewModel.ViewState.*
+import com.andretietz.retrofitcache.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        setSupportActionBar(findViewById(R.id.toolbar))
+  private val viewModel: MainViewModel by viewModels()
 
-        findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    val binding = ActivityMainBinding.inflate(layoutInflater)
+    setContentView(binding.root)
+
+    lifecycleScope.launch {
+      viewModel.state.consumeAsFlow().collect {
+        when (it) {
+          is InitialState -> {
+            binding.textNumber.text = ""
+            binding.textWhereFrom.text = getText(R.string.main_default_description)
+          }
+          is NumberUpdate -> {
+            binding.textNumber.text = "${it.value}"
+            binding.textWhereFrom.text = getText(
+              if (it.fromCache) {
+                R.string.main_cachehit_description
+              } else {
+                R.string.main_cachemiss_description
+              }
+            )
+
+          }
+          is Error -> {
+            binding.textNumber.text = "-1"
+            binding.textWhereFrom.text = "${it.error.message}"
+          }
         }
+      }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
+    binding.refresh.setOnRefreshListener {
+      lifecycleScope.launch {
+        viewModel.updateNumber()
+        binding.refresh.isRefreshing = false
+      }
     }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
+  }
 }

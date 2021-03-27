@@ -5,20 +5,22 @@ import okhttp3.CacheControl
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 
-object RetrofitCacheExtension {
+object ResponseCacheExtension {
 
   @JvmStatic
+  @JvmOverloads
   fun setup(
     retrofit: Retrofit,
     cache: Cache,
-    cacheControl: (annotation: HttpCache) -> CacheControl = {
+    cacheControl: (annotation: ResponseCache) -> CacheControl = {
       CacheControl.Builder()
         .maxAge(it.value, it.unit)
         .build()
-    }): Retrofit {
+    }
+  ): Retrofit {
     if (!cache.directory.isDirectory)
       throw IllegalArgumentException("The Cache must have a directory set!")
-    val annotationRegister = mutableMapOf<Int, HttpCache>()
+    val annotationRegister = mutableMapOf<Int, ResponseCache>()
     val okHttpClient = retrofit.callFactory().let { callFactory ->
       if (callFactory !is OkHttpClient) {
         throw IllegalStateException("RetrofitCache only works with OkHttp as Http Client!")
@@ -43,11 +45,11 @@ object RetrofitCacheExtension {
   }
 }
 
-fun Retrofit.cacheExtension(
+fun Retrofit.responseCache(
   cache: Cache,
-  cacheControl: (annotation: HttpCache) -> CacheControl = {
+  cacheControl: (annotation: ResponseCache) -> CacheControl = {
     CacheControl.Builder()
       .maxAge(it.value, it.unit)
       .build()
   }
-) = RetrofitCacheExtension.setup(this, cache, cacheControl)
+) = ResponseCacheExtension.setup(this, cache, cacheControl)

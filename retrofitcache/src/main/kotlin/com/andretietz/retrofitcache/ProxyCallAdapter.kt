@@ -5,9 +5,9 @@ import retrofit2.CallAdapter
 import java.lang.reflect.Type
 
 internal class ProxyCallAdapter<RETURN_TYPE : Any>(
-  private val adapter: CallAdapter<Any, RETURN_TYPE>,
-  private val registration: MutableMap<Int, HttpCache>,
-  private val info: HttpCache
+    private val adapter: CallAdapter<Any, RETURN_TYPE>,
+    private val registration: MutableMap<Int, ResponseCache>,
+    private val info: ResponseCache
 ) : CallAdapter<Any, RETURN_TYPE> {
 
   override fun responseType(): Type = adapter.responseType()

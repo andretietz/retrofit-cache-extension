@@ -5,12 +5,12 @@ import retrofit2.Retrofit
 import java.lang.reflect.Type
 
 internal class HttpCacheCallAdapterFactory(
-  private val registration: MutableMap<Int, HttpCache> = mutableMapOf()
+  private val registration: MutableMap<Int, ResponseCache> = mutableMapOf()
 ) : CallAdapter.Factory() {
 
-  private fun isAnnotated(annotations: Array<Annotation>): HttpCache? {
+  private fun isAnnotated(annotations: Array<Annotation>): ResponseCache? {
     for (annotation in annotations) {
-      if (HttpCache::class == annotation.annotationClass) return annotation as HttpCache
+      if (ResponseCache::class == annotation.annotationClass) return annotation as ResponseCache
     }
     return null
   }
