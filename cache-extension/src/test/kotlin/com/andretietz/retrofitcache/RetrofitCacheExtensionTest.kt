@@ -108,7 +108,6 @@ class RetrofitCacheExtensionTest {
       assertThat(cache.networkCount()).isEqualTo(2)
       assertThat(cache.hitCount()).isEqualTo(0)
 
-
       response = api.getCachedInt()
       assertThat(response.body()).isEqualTo(1234)
       assertThat(cache.requestCount()).isEqualTo(3)
@@ -121,7 +120,6 @@ class RetrofitCacheExtensionTest {
       assertThat(cache.requestCount()).isEqualTo(4)
       assertThat(cache.networkCount()).isEqualTo(3)
       assertThat(cache.hitCount()).isEqualTo(1)
-
 
       response = api.getCachedInt()
       assertThat(response.body()).isEqualTo(1234)
@@ -142,7 +140,6 @@ class RetrofitCacheExtensionTest {
       assertThat(cache.requestCount()).isEqualTo(1)
       assertThat(cache.networkCount()).isEqualTo(1)
       assertThat(cache.hitCount()).isEqualTo(0)
-
 
       api.getShortCachedInt()
       assertThat(cache.requestCount()).isEqualTo(2)
@@ -213,6 +210,4 @@ class RetrofitCacheExtensionTest {
       }
     }
   }
-
-
 }

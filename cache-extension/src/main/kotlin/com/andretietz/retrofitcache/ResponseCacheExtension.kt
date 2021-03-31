@@ -18,17 +18,13 @@ object ResponseCacheExtension {
         .build()
     }
   ): Retrofit {
-    if (!cache.directory.isDirectory)
-      throw IllegalArgumentException("The Cache must have a directory set!")
+    require(cache.directory.isDirectory)
     val okHttpClient = retrofit.callFactory().let { callFactory ->
-      if (callFactory !is OkHttpClient) {
-        throw IllegalStateException("RetrofitCache only works with OkHttp as Http Client!")
-      } else {
-        callFactory.newBuilder()
-          .addNetworkInterceptor(HttpCachingInterceptor(cacheControl))
-          .cache(cache)
-          .build()
-      }
+      check(callFactory is OkHttpClient) { "RetrofitCache only works with OkHttp as Http Client!" }
+      callFactory.newBuilder()
+        .addNetworkInterceptor(HttpCachingInterceptor(cacheControl))
+        .cache(cache)
+        .build()
     }
     return retrofit.newBuilder()
       .client(okHttpClient)

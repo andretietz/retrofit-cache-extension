@@ -1,0 +1,45 @@
+potential-bugs:
+  UnsafeCast:
+    active: false
+  LateinitUsage:
+    active: false
+
+complexity:
+  NestedBlockDepth:
+    active: false
+  MethodOverloading:
+    active: false
+  ComplexMethod:
+    active: false
+  LongMethod:
+    excludes: "**/*Test.kt"
+
+exceptions:
+  TooGenericExceptionCaught:
+    active: false
+  TooGenericExceptionThrown:
+    active: false
+
+style:
+  ReturnCount:
+    active: false
+  UnnecessaryAbstractClass:
+    active: false
+  UseDataClass:
+    active: false
+  MandatoryBracesIfStatements:
+    active: false
+
+comments:
+  UndocumentedPublicClass:
+    active: false
+  UndocumentedPublicFunction:
+    active: false
+  CommentOverPrivateFunction:
+    active: false
+  EndOfSentenceFormat:
+    active: false
+
+naming:
+  PackageNaming:
+    active: false
