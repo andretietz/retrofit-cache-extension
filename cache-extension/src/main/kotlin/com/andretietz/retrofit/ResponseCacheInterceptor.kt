@@ -1,4 +1,4 @@
-package com.andretietz.retrofitcache
+package com.andretietz.retrofit
 
 import okhttp3.CacheControl
 import okhttp3.Interceptor
@@ -6,8 +6,12 @@ import okhttp3.Request
 import okhttp3.Response
 import retrofit2.Invocation
 
-class HttpCachingInterceptor(
-  private val cacheControl: (annotation: ResponseCache) -> CacheControl
+class ResponseCacheInterceptor(
+  private val cacheControl: (annotation: ResponseCache) -> CacheControl = {
+    CacheControl.Builder()
+      .maxAge(it.value, it.unit)
+      .build()
+  }
 ) : Interceptor {
 
   override fun intercept(chain: Interceptor.Chain): Response {

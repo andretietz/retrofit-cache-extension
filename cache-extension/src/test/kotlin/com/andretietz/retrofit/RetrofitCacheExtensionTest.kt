@@ -1,7 +1,10 @@
-package com.andretietz.retrofitcache
+package com.andretietz.retrofit
 
-import com.andretietz.retrofitcache.RetrofitCacheExtensionTest.TestApi.Companion.RESPONSE_GET_INT
-import com.andretietz.retrofitcache.RetrofitCacheExtensionTest.TestApi.Companion.RESPONSE_GET_INT_CACHE
+import com.andretietz.retrofit.ResponseCache
+import com.andretietz.retrofit.ResponseCacheInterceptor
+import com.andretietz.retrofit.responseCache
+import com.andretietz.retrofit.RetrofitCacheExtensionTest.TestApi.Companion.RESPONSE_GET_INT
+import com.andretietz.retrofit.RetrofitCacheExtensionTest.TestApi.Companion.RESPONSE_GET_INT_CACHE
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
@@ -59,7 +62,7 @@ class RetrofitCacheExtensionTest {
   fun `check if Interceptor is in place`() {
     assertThat(retrofit.callFactory()).isInstanceOf(OkHttpClient::class.java)
     val okHttpClient = retrofit.callFactory() as OkHttpClient
-    val interceptor = okHttpClient.networkInterceptors.find { it is HttpCachingInterceptor }
+    val interceptor = okHttpClient.networkInterceptors.find { it is ResponseCacheInterceptor }
     assertThat(interceptor).isNotNull
   }
 

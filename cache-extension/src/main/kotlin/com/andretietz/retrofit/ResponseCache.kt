@@ -1,4 +1,4 @@
-package com.andretietz.retrofitcache
+package com.andretietz.retrofit
 
 import java.util.concurrent.TimeUnit
 

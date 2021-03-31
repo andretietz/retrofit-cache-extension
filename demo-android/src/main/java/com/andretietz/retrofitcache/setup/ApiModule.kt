@@ -1,7 +1,7 @@
 package com.andretietz.retrofitcache.setup
 
 import android.app.Application
-import com.andretietz.retrofitcache.responseCache
+import com.andretietz.retrofit.responseCache
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,7 +23,7 @@ class ApiModule {
 
   @Provides
   @Singleton
-  fun provideRetrofit(cache: Cache): Retrofit {
+  fun provideRetrofit(application: Application): Retrofit {
     val loggingInterceptor = HttpLoggingInterceptor()
     loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
     return Retrofit.Builder()
@@ -34,11 +34,6 @@ class ApiModule {
       )
       .addConverterFactory(MoshiConverterFactory.create())
       .build()
-      .responseCache(cache)
+      .responseCache(Cache(directory = application.cacheDir, 10 * 1024))
   }
-
-  @Provides
-  @Singleton
-  fun provideCache(application: Application) =
-    Cache(directory = application.cacheDir, 10 * 1024)
 }

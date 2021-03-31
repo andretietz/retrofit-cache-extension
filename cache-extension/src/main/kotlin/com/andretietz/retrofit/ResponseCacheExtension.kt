@@ -1,4 +1,4 @@
-package com.andretietz.retrofitcache
+package com.andretietz.retrofit
 
 import okhttp3.Cache
 import okhttp3.CacheControl
@@ -18,11 +18,11 @@ object ResponseCacheExtension {
         .build()
     }
   ): Retrofit {
-    require(cache.directory.isDirectory)
+    require(cache.directory.isDirectory) { "Invalid Cache directory!" }
     val okHttpClient = retrofit.callFactory().let { callFactory ->
       check(callFactory is OkHttpClient) { "RetrofitCache only works with OkHttp as Http Client!" }
       callFactory.newBuilder()
-        .addNetworkInterceptor(HttpCachingInterceptor(cacheControl))
+        .addNetworkInterceptor(ResponseCacheInterceptor(cacheControl))
         .cache(cache)
         .build()
     }
