@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Response Cache Demo</string>
-    <string name="title_activity_main">Random Numbers</string>
+    <string name="title_activity_main">Random Numbers in Cache</string>
     <string name="main_default_description">Pull to start fetching random numbers</string>
-    <string name="main_cachehit_description">Value loaded from Cache</string>
-    <string name="main_cachemiss_description">Value loaded from Network</string>
+    <string name="main_cachehit_description">Value loaded from Cache (still %d ms valid)</string>
+    <string name="main_cachemiss_description">Value loaded from Network (%d ms valid)</string>
 </resources>

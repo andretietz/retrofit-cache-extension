@@ -40,5 +40,5 @@ class ApiModule {
   @Provides
   @Singleton
   fun provideCache(application: Application) =
-    Cache(directory = application.cacheDir, 50 * 1024)
+    Cache(directory = application.cacheDir, 10 * 1024)
 }
