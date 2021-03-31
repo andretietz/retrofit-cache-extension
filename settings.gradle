@@ -1,4 +1,4 @@
-include ':retrofitcache'
+include ':cache-extension'
 include ':demo-android'
 
 rootProject.name = "Retrofitcache"

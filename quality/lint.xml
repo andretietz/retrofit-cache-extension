@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <!-- this should be ignored, since I'll try to be backwards compatible -->
+    <issue id="OldTargetApi" severity="ignore" />
+    <!-- this is for the appcompat dependencies -->
+    <issue id="GradleDependency" severity="ignore" />
+</lint>

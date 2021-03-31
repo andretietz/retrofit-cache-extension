@@ -5,8 +5,10 @@ import retrofit2.Response
 import retrofit2.http.GET
 import java.util.concurrent.TimeUnit
 
+const val CACHE_VALIDITY = 20000
+
 interface RandomApi {
   @GET("api/v1.0/random")
-  @ResponseCache(20, unit = TimeUnit.SECONDS)
+  @ResponseCache(CACHE_VALIDITY, unit = TimeUnit.MILLISECONDS)
   suspend fun randomNumber(): Response<List<Int>>
 }
