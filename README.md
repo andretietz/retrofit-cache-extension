@@ -1,6 +1,10 @@
 # Retrofit Cache Extension
 [![Snapshot build](https://github.com/andretietz/retroauth/workflows/Snapshot%20build/badge.svg)](https://github.com/andretietz/retrofit-cache-extension/actions?query=workflow%3A%22Snapshot+build%22)
 
+This libary depends on:
+* [retrofit](https://github.com/square/retrofit) 2.9.0
+* [okhttp](https://github.com/square/okhttp) 4.9.1
+ 
 This extension adds a `ResponseCache` annotation to the retrofit api in order to cache `GET` responses.
 
 It's using the caching functionalities from okhttp, meaning that it'll add HTTP headers to the responses which are

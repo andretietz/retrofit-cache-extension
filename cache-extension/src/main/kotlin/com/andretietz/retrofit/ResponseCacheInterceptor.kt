@@ -6,6 +6,9 @@ import okhttp3.Request
 import okhttp3.Response
 import retrofit2.Invocation
 
+private const val CACHE_CONTROL = "Cache-Control"
+private const val CACHE_PRAGMA = "Pragma"
+
 class ResponseCacheInterceptor(
   private val cacheControl: (annotation: ResponseCache) -> CacheControl = {
     CacheControl.Builder()
@@ -49,9 +52,4 @@ class ResponseCacheInterceptor(
 
   private fun containsCachingInformation(response: Response): Boolean =
     response.headers.names().contains(CACHE_CONTROL)
-
-  companion object {
-    private const val CACHE_CONTROL = "Cache-Control"
-    private const val CACHE_PRAGMA = "Pragma"
-  }
 }
