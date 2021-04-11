@@ -32,13 +32,12 @@ jobs:
           version=$(grep "VERSION_NAME" "./gradle.properties"|cut -d'=' -f2| sed 's/-SNAPSHOT//g')
           sed -i'' "s/VERSION_NAME=.*-SNAPSHOT/VERSION_NAME=$version/g" gradle.properties
           echo "Building Release Version: $version"
-          ./gradlew uploadArchives --stacktrace --no-daemon --no-parallel --warning-mode all
+          ./gradlew cache-extension:uploadArchives --stacktrace --no-daemon --no-parallel --warning-mode all
+          ./gradlew closeAndReleaseRepository --no-daemon --no-parallel --warning-mode all
         env:
           ORG_GRADLE_PROJECT_SONATYPE_NEXUS_USERNAME: ${{ secrets.SONATYPE_NEXUS_USERNAME }}
           ORG_GRADLE_PROJECT_SONATYPE_NEXUS_PASSWORD: ${{ secrets.SONATYPE_NEXUS_PASSWORD }}
+          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.GPG_SIGNING_KEY }}
+          ORG_GRADLE_PROJECT_signingKeyId: ${{ secrets.GPG_SIGNING_KEY_ID }}
+          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.GPG_SIGNING_KEY_SECRET }}
 
-      - name: Publish Release
-        run: ./gradlew closeAndReleaseRepoistory --no-daemon --no-parallel --warning-mode all
-        env:
-          ORG_GRADLE_PROJECT_SONATYPE_NEXUS_USERNAME: ${{ secrets.SONATYPE_NEXUS_USERNAME }}
-          ORG_GRADLE_PROJECT_SONATYPE_NEXUS_PASSWORD: ${{ secrets.SONATYPE_NEXUS_PASSWORD }}
